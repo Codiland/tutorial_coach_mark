@@ -3,6 +3,8 @@ import 'package:tutorial_coach_mark/src/target/target_content.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
 import 'package:tutorial_coach_mark/src/util.dart';
 
+typedef TargetBuilder = Widget Function(BuildContext context, Widget child);
+
 class TargetFocus {
   TargetFocus({
     this.identify,
@@ -20,6 +22,7 @@ class TargetFocus {
     this.focusAnimationDuration,
     this.unFocusAnimationDuration,
     this.pulseVariation,
+    this.builder,
   }) : assert(keyTarget != null || targetPosition != null);
 
   final dynamic identify;
@@ -37,6 +40,7 @@ class TargetFocus {
   final Duration? focusAnimationDuration;
   final Duration? unFocusAnimationDuration;
   final Tween<double>? pulseVariation;
+  final TargetBuilder? builder;
 
   @override
   String toString() {
