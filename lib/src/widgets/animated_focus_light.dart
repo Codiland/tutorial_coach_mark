@@ -282,7 +282,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
     if (_targetFocus.builder != null) {
       return _targetFocus.builder!(context, child);
     } else {
-      return InkWell(
+      return GestureDetector(
         onTap: _targetFocus.enableOverlayTab
             ? () => _tapHandler(overlayTap: true)
             : null,
@@ -363,52 +363,51 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _targetFocus.enableOverlayTab
-          ? () => _tapHandler(overlayTap: true)
-          : null,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (_, child) {
-          _progressAnimated = _curvedAnimation.value;
-          return AnimatedBuilder(
-            animation: _controllerPulse,
-            builder: (_, child) {
-              if (_finishFocus) {
-                _progressAnimated = _tweenPulse.value;
-              }
-              return Stack(
-                children: <Widget>[
-                  _getLightPaint(_targetFocus),
-                  Positioned(
-                    left: left,
-                    top: top,
-                    child: InkWell(
-                      borderRadius: _betBorderRadiusTarget(),
-                      onTap: _targetFocus.enableTargetTab
-                          ? () => _tapHandler(targetTap: true)
+    var child = AnimatedBuilder(
+      animation: _controller,
+      builder: (_, child) {
+        _progressAnimated = _curvedAnimation.value;
+        return AnimatedBuilder(
+          animation: _controllerPulse,
+          builder: (_, child) {
+            if (_finishFocus) {
+              _progressAnimated = _tweenPulse.value;
+            }
+            return Stack(
+              children: <Widget>[
+                _getLightPaint(_targetFocus),
+                Positioned(
+                  left: left,
+                  top: top,
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    borderRadius: _betBorderRadiusTarget(),
+                    onTap: _targetFocus.enableTargetTab
+                        ? () => _tapHandler(targetTap: true)
 
-                          /// Essential for collecting [TapDownDetails]. Do not make [null]
-                          : () {},
-                      onTapDown: _tapHandlerForPosition,
-                      child: Container(
-                        color: Colors.transparent,
-                        width: width,
-                        height: height,
-                      ),
+                        /// Essential for collecting [TapDownDetails]. Do not make [null]
+                        : () {},
+                    onTapDown: _tapHandlerForPosition,
+                    child: Container(
+                      color: Colors.transparent,
+                      width: width,
+                      height: height,
                     ),
-                  )
-                ],
-              );
-            },
-          );
-        },
-      ),
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      },
     );
+
     if (_targetFocus.builder != null) {
       return _targetFocus.builder!(context, child);
     } else {
-      return InkWell(
+      return GestureDetector(
         onTap: _targetFocus.enableOverlayTab
             ? () => _tapHandler(overlayTap: true)
             : null,
